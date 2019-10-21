@@ -17,10 +17,11 @@ class Ranking extends Component {
         }
     }
 
-    getMusicIndex(e) {
+    getMusicIndex = (e) => {
         this.setState({
             index: e.key,
         })
+        console.log(e.key)
     }
 
     componentDidMount() {

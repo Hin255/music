@@ -1,0 +1,25 @@
+.player {
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    width: 100vw;
+    overflow: hidden;
+    background-color: #dee1e6;
+}
+
+.music-ctrl {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 25%;
+}
+
+.show {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}

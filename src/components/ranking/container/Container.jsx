@@ -10,51 +10,87 @@ class Container extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            tracks: []
+            playList: {
+                musicList: [],
+                coverImage: null,
+            },
+            currentId: null,
         }
     }
 
-    componentDidMount() {
+    componentWillReceiveProps(nextProps){
+        let currentId = this.state.currentId
+        let nextId = nextProps.id
+        if (currentId == nextId) {
+            return
+        } else {
+            this.state.currentId = nextId
+            this.getData(nextId)
+        }
+    }
+
+    getData = (id) => {
         const that = this
-        console.log('guagua', that.props.id)
-        getMusiclistByIndex(that.props.id, function(res){
-            console.log(res )
-            let tracks = res.data.playlist.tracks
-            console.log(tracks)
-            let person = []
-            tracks.ar.forEach(function (o) { person.push(o.name) })
-            console.log('sdfsdfsdf', person)
-            tracks.person = person
+        let playList = this.state.playList
+        getMusiclistByIndex(id, function (res) {
+            console.log('res', res)
+            let data = res.data.playlist.tracks
+            let coverImage = res.data.playlist.coverImgUrl
+            let musicList = []
+            data.forEach(function(item) {
+                let music = {}
+                music.id = item.id
+                music.name = item.name
+                let s = []
+
+                item.ar.forEach(function(o) {
+                    s.push(o.name)
+                })
+                let singer = s.join(' / ')
+                music.singer = singer
+                musicList.push(music)
+            })
             that.setState({
-                tracks: tracks
+                playList: {
+                    musicList: musicList,
+                    coverImage: coverImage,
+                }
             })
         })
     }
 
+    componentDidMount() {
+        this.getData(this.props.id)
+    }
+
     render() {
-        const data = this.state.tracks
+        const data = this.state.playList.musicList
+        const coverImage = this.state.playList.coverImage
+        const musicNumber = this.state.playList.musicList.length
         const list = data.map((d) =>
-            <Item name={d.name} time={d.time} person={d.person} src={d.src} />
+            <Item id={d.id} name={d.name} time={d.time} person={d.singer} src={d.cover} />
         )
         return (
             <Layout>
-                <Synopsis />
+                <Synopsis src={coverImage} />
                 <div>
                     <span>歌曲列表</span>
-                    <span>100首歌</span>
+                    <span>{musicNumber}首歌</span>
                 </div>
                 <table style={{width: '100%', marginTop: 50}}>
                     <thead>
-                        <th class="first w1"></th>
-                        <th>
-                            <div class="wp">标题</div>
-                        </th>
-                        <th class="w2-1">
-                            <div class="wp">时长</div>
-                        </th>
-                        <th class="w3-1">
-                            <div class="wp">歌手</div>
-                        </th>
+                        <tr>
+                            <th ></th>
+                            <th>
+                                <div>标题</div>
+                            </th>
+                            <th>
+                                <div>时长</div>
+                            </th>
+                            <th>
+                                <div>歌手</div>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                         {list}

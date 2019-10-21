@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Layout, Menu, Input } from 'antd'
 import Login from '../login/Login'
 import Bar from '../bar/Bar'
+import Ranking from '../ranking/Ranking'
 import './Top.css'
 const { Header, Footer, Content } = Layout
 const { Search } = Input
@@ -60,6 +61,9 @@ class Top extends Component {
                     </Header>
                     <div className={isFirstItem ? 'show' : 'hidden'}>
                         <Bar />
+                    </div>
+                    <div className={!isFirstItem ? 'show' : 'hidden'}>
+                        not first Item
                     </div>
                 </Layout>
             </div>
