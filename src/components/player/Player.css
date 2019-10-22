@@ -1,3 +1,8 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .player {
     position: fixed;
     bottom: 0;
@@ -5,6 +10,9 @@
     width: 100vw;
     overflow: hidden;
     background-color: #dee1e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .music-ctrl {
@@ -22,4 +30,43 @@
 
 .hidden {
     display: none;
+}
+
+.progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    margin: 0 auto;
+    margin-left: 10px;
+}
+
+.progress-bar {
+    position: relative;
+    width: 70%;
+    height: 5px;
+    background-color: #eee;
+    vertical-align: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.now {
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    height: 5px;
+    width: 70%;
+    background: cornflowerblue;
+}
+
+.now::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    width: 13px;
+    height: 13px;
+    border-radius: 50px;
+    background-color: lightblue;
+    margin-top: -4px;
 }

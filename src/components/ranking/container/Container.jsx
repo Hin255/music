@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Icon } from 'antd'
-import { Avatar, Button } from 'antd'
 import Synopsis from './synopsis/Synopsis'
 import Item from './item/Item'
 import getMusiclistByIndex from '../../../api/container'
-const { Header, Sider, Content } = Layout
 
 class Container extends Component {
     constructor(props) {
@@ -80,7 +78,7 @@ class Container extends Component {
                 <table style={{width: '100%', marginTop: 50}}>
                     <thead>
                         <tr>
-                            <th ></th>
+                            <th></th>
                             <th>
                                 <div>标题</div>
                             </th>

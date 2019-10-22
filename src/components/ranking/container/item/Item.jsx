@@ -11,6 +11,10 @@ class Item extends Component {
         this.state = {
             musicSource: null,
             id: null,
+            name: null,
+            singer: null,
+            time: null,
+            cover:  null,
         }
     }
 
@@ -67,4 +71,3 @@ class Item extends Component {
 }
 
 export default Item
-
