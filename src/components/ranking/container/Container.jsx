@@ -17,6 +17,7 @@ class Container extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        console.log('dsdawrwer')
         let currentId = this.state.currentId
         let nextId = nextProps.id
         if (currentId == nextId) {
@@ -29,9 +30,7 @@ class Container extends Component {
 
     getData = (id) => {
         const that = this
-        let playList = this.state.playList
         getMusiclistByIndex(id, function (res) {
-            console.log('res', res)
             let data = res.data.playlist.tracks
             let coverImage = res.data.playlist.coverImgUrl
             let musicList = []
@@ -39,6 +38,7 @@ class Container extends Component {
                 let music = {}
                 music.id = item.id
                 music.name = item.name
+                music.cover = item.al.picUrl + '?param=50y50&quality=100'
                 let s = []
 
                 item.ar.forEach(function(o) {
@@ -48,17 +48,15 @@ class Container extends Component {
                 music.singer = singer
                 musicList.push(music)
             })
+            that.state.playList.musicList = []
             that.setState({
                 playList: {
                     musicList: musicList,
                     coverImage: coverImage,
                 }
             })
+            console.log('get data', that.state.playList.musicList)
         })
-    }
-
-    componentDidMount() {
-        this.getData(this.props.id)
     }
 
     render() {
@@ -66,7 +64,7 @@ class Container extends Component {
         const coverImage = this.state.playList.coverImage
         const musicNumber = this.state.playList.musicList.length
         const list = data.map((d) =>
-            <Item id={d.id} name={d.name} time={d.time} person={d.singer} src={d.cover} />
+            <Item id={d.id} name={d.name} singer={d.singer} cover={d.cover} />
         )
         return (
             <Layout>

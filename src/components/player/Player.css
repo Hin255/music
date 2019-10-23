@@ -70,3 +70,7 @@
     background-color: lightblue;
     margin-top: -4px;
 }
+
+.info span {
+    display: block;
+}

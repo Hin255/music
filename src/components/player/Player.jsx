@@ -2,18 +2,25 @@ import React, { Component } from "react"
 import { ReactDOM } from "react-dom"
 import PropTypes from 'prop-types'
 import { Icon } from "antd"
+import Item from '../ranking/container/item/Item'
 import './Player.css'
+
+import store from '../store'
 
 class Player extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            // src: null,
-            src:    "http://m7.music.126.net/20191022172400/5e15d9a7a0f65905c958e34144cd1ceb/ymusic/025d/060f/5552/57889b144f1e3beccb57b81709c72094.mp3",
             pause: true,
-            music: null,
+            music: {},
+            musicList:[],
+            musicArray: [],
+            duration: null,
+            durationSecond: null,
             currentTime: 0,
             volume: 0,
+            showPlayList: false,
+            audio: new Audio(),
         }
     }
 
@@ -21,64 +28,150 @@ class Player extends Component {
         music: PropTypes.object,
     }
 
-    clickHandler = () => {
-        this.playMusic()
+    setAudioSource = (src) => {
+        let audio = this.state.audio
+        audio.src = src
+    }
+
+    play = () => {
+        let audio = this.state.audio
+        if (audio.src && audio.paused) {
+            audio.play()
+            this.setState({
+                pause: false
+            })
+        }
+    }
+
+    pause = () => {
+        let audio = this.state.audio
+        if (audio.src && !audio.paused) {
+            audio.pause()
+            this.setState({
+                pause: true
+            })
+        }
+    }
+
+    setPlayMode = (mode) => {
+        let audio = this.state.audio
+        let musicList = this.state.musicList
+        switch (mode) {
+            case 'loop': // 单曲循环
+                audio.loop = true
+                break
+            case 'listLoop':
+                break
+            case 'once':
+                audio.loop = false
+                break
+            case 'random':
+                break
+            case 'order':
+                break
+        }
     }
 
     getDuration = () => {
-        let audio = document.querySelector('#id-audio')
-        this.setState({
-            duration: audio.duration,
-        })
+        let audio = this.state.audio
+        let second = audio.duration
+        let d = (second / 60).toString().replace('.', ':').substr(0, 4)
+        if (audio.src) {
+            this.setState({
+                duration: d,
+                durationSecond: second,
+            })
+        }
     }
 
     getCurrentTime = () => {
-        let audio = document.querySelector('#id-audio')
-        this.setState({
-            currentTime: audio.currentTime
-        })
+        let audio = this.state.audio
+        if (audio.src) {
+            this.setState({
+                duration: audio.currentTime
+            })
+        }
     }
 
-    getVolume = () => {
-        let audio = document.querySelector('#id-audio')
+    setCurrentTime = (time) => {
+        let audio = this.state.audio
+        if (time <= audio.duration) {
+            this.state.audio.currentTime = time
+            this.music.currentTime = time
+        }
+    }
+
+    initMusicAndPlay = (src) => {
+        this.setAudioSource(src)
+        setTimeout(this.getDuration, 1000)
+        this.play()
+    }
+
+    addMusicToPlayer = (music) => {
+        let musicArray = this.state.musicArray
+        let musicList = this.state.musicList
+        if (music instanceof Array) {
+            musicList.concat(music)
+            music.map((d) => {
+                musicArray.push(<Item id={d.id} name={d.name} singer={d.singer} cover={d.cover} />)
+            })
+        } else if (music instanceof Object) {
+            musicList.push(music)
+            let d = music
+            console.log('dddde', d) 
+            musicArray.push(<Item id={d.id} name={d.name} singer={d.singer} cover={d.cover} />)
+        }
         this.setState({
-            volume: audio.volume
+            musicArray: musicArray,
         })
+        console.log('musicArray', musicArray)
     }
 
     componentDidMount() {
-        this.getDuration()
-        this.getVolume()
+        this.unsubscribe = store.subscribe(() => {
+            let data = store.getState()
+            this.setState({ 
+                music: data.music 
+            })
+            this.initMusicAndPlay(data.music.src)
+            console.log('data.music', data.music)
+            this.addMusicToPlayer(data.music)
+        })
+    }
+    componentWillUnmount() {
+        this.unsubscribe()
     }
 
-    playMusic = () => {
-        let audio = document.querySelector('#id-audio')
-        let pause = this.state.pause
-        if (pause) {
-            audio.play()
-        } else {
-            audio.pause()
-        }
+    clickPlayList = () => {
         this.setState({
-            pause: !pause
+            showPlayList: !this.state.showPlayList
         })
     }
 
     render() {
         const pause = this.state.pause
-        const source  = this.state.src
-        const volume = this.state.volume
         const duration = this.state.duration
+        const music = this.state.music
+        const name = music.name
+        const singer = music.singer
+        const cover = music.cover
+        const showPlayList = this.state.showPlayList
+        const musicArray = this.state.musicArray
+        
         return (
             <div className="player">
+                <div>
+                    <img src={cover} alt=""/>
+                </div>
                 <div class="music-ctrl">
                     <Icon type="step-backward" style={{ fontSize: '30px', color: '#001529' }} />
-                    <Icon className={pause ? 'show' : 'hidden'} onClick={this.clickHandler} type="play-circle" style={{ fontSize: '40px', color: '#001529' }} />
-                    <Icon className={!pause ? 'show' : 'hidden'} onClick={this.clickHandler} type="pause-circle" style={{ fontSize: '40px', color: '#001529' }} />
+                    <Icon className={pause ? 'show' : 'hidden'} onClick={this.play} type="play-circle" style={{ fontSize: '40px', color: '#001529' }} />
+                    <Icon className={!pause ? 'show' : 'hidden'} onClick={this.pause} type="pause-circle" style={{ fontSize: '40px', color: '#001529' }} />
                     <Icon type="step-forward" style={{ fontSize: '30px', color: '#001529' }} />
-                    <audio id="id-audio">
-                        <source type="audio/mp3" src={source} />
-                    </audio>
+                </div>
+                <div class="info">
+                    <span>{name}</span>
+                    <span>{singer}</span>
                 </div>
                 <div class="progress">
                     <span class="start"></span>
@@ -88,7 +181,21 @@ class Player extends Component {
                     <span class="end"></span>
                     <span>{duration}</span>
                 </div>
-                <div class="hand" title="展开播放条"></div>
+                <div class="hand" title="展开播放条">
+                    <Icon onClick={this.clickPlayList} style={{marginRight: 200}} type="unordered-list" />
+                </div>
+                <div className={showPlayList ? 'show' : 'hidden'} style={{position:'fixed', backgroundColor: '#000', opacity: '0.9', height: 300, width: 1000, bottom: 60}}>
+                    <div>
+                        <table>
+                            <tbody>
+                                {musicArray}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        歌词
+                    </div>
+                </div>
             </div>
         )
     }
