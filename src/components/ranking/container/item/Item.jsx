@@ -3,10 +3,9 @@ import { Icon } from 'antd'
 import { Avatar} from 'antd'
 import PropTypes from 'prop-types'
 import getMusicSource from '../../../../api/player'
-
 import store from '../../../store'
 import passMusic from '../../../action'
-
+import './Item.css'
 
 class Item extends Component {
     constructor(props) {
@@ -61,18 +60,18 @@ class Item extends Component {
         let singer = this.props.singer
         return (
             <tr style={{ height: 50 }} onClick={this.getMusic} >
-                <td>1</td>
-                <td>
+                <td class="td-1"></td>
+                <td class="td-2">
                     <img src={cover} alt=""/>
-                    <Icon type="play-circle"/>
-                    <span style={{color: 'white'}}>{name}</span>
+                    <Icon className="icon icon-play" type="play-circle"/>
+                    <span>{name}</span>
                 </td>
-                <td>
-                    <Icon type="play-circle" />
-                    <Icon type="plus" />
-                    <Icon type="download" />
+                <td class="td-3">
+                    <Icon className="icon" type="play-circle" />
+                    <Icon className="icon" type="plus" />
+                    <Icon className="icon" type="download" />
                 </td>
-                <td>
+                <td class="td-4">
                     <a href="">{singer}</a>
                 </td>
             </tr>

@@ -1,0 +1,21 @@
+.icon {
+    padding: 10px;
+}
+
+.icon-play {
+    font-size: 20px;
+    
+}
+
+tr:nth-child(2n) {
+    background-color: snow;
+}
+
+.td-2 {
+    text-align: left;
+    padding: 10px;
+}
+
+.td-3 {
+    width: 120px;
+}

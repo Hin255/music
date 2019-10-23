@@ -3,6 +3,7 @@ import { Layout, Menu, Icon } from 'antd'
 import Synopsis from './synopsis/Synopsis'
 import Item from './item/Item'
 import getMusiclistByIndex from '../../../api/container'
+import './Container.css'
 
 class Container extends Component {
     constructor(props) {
@@ -55,7 +56,6 @@ class Container extends Component {
                     coverImage: coverImage,
                 }
             })
-            console.log('get data', that.state.playList.musicList)
         })
     }
 
