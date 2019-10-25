@@ -1,3 +1,22 @@
 .ranking {
     min-height: 100vh;
 }
+
+.menu-item {
+    padding: 10px;
+}
+
+.menu-item * {
+    margin-right: 10px;
+}
+
+.menu {
+    width: 300px;
+    text-align: left;
+}
+
+.sider {
+    background-color: white;
+    min-width: 300px !important;
+    margin-top: 300px;
+}

@@ -1,0 +1,6 @@
+.music-table {
+    display: block;
+    height: 1283px !important;
+    overflow: auto;
+    margin-top: 80px !important;
+}

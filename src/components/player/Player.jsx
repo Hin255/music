@@ -2,9 +2,8 @@ import React, { Component } from "react"
 import { ReactDOM } from "react-dom"
 import PropTypes from 'prop-types'
 import { Icon } from "antd"
-import Item from '../ranking/container/item/Item'
+import Item from '../item/Item'
 import './Player.css'
-
 import store from '../store'
 
 class Player extends Component {
@@ -118,13 +117,11 @@ class Player extends Component {
         } else if (music instanceof Object) {
             musicList.push(music)
             let d = music
-            console.log('dddde', d) 
             musicArray.push(<Item id={d.id} name={d.name} singer={d.singer} cover={d.cover} />)
         }
         this.setState({
             musicArray: musicArray,
         })
-        console.log('musicArray', musicArray)
     }
 
     componentDidMount() {
@@ -163,28 +160,50 @@ class Player extends Component {
                 <div>
                     <img src={cover} alt=""/>
                 </div>
-                <div class="music-ctrl">
-                    <Icon type="step-backward" style={{ fontSize: '30px', color: '#001529' }} />
-                    <Icon className={pause ? 'show' : 'hidden'} onClick={this.play} type="play-circle" style={{ fontSize: '40px', color: '#001529' }} />
-                    <Icon className={!pause ? 'show' : 'hidden'} onClick={this.pause} type="pause-circle" style={{ fontSize: '40px', color: '#001529' }} />
-                    <Icon type="step-forward" style={{ fontSize: '30px', color: '#001529' }} />
+                <div className="music-ctrl">
+                    <Icon   type="step-backward"
+                            style={{ fontSize: '30px', color: '#001529' }}
+                    />
+                    <Icon   className={pause ? 'show' : 'hidden'}
+                            onClick={this.play}
+                            type="play-circle"
+                            style={{ fontSize: '40px', color: '#001529' }}
+                    />
+                    <Icon   className={!pause ? 'show' : 'hidden'}
+                            onClick={this.pause}
+                            type="pause-circle"
+                            style={{ fontSize: '40px', color: '#001529' }}
+                    />
+                    <Icon   type="step-forward"
+                            style={{ fontSize: '30px', color: '#001529' }}
+                    />
                 </div>
-                <div class="info">
+                <div className="info">
                     <span>{name}</span>
                     <span>{singer}</span>
                 </div>
-                <div class="progress">
-                    <span class="start"></span>
-                    <div class="progress-bar">
-                        <div class="now"></div>
+                <div className="progress">
+                    <span className="start"></span>
+                    <div className="progress-bar">
+                        <div className="now"></div>
                     </div>
-                    <span class="end"></span>
+                    <span className="end"></span>
                     <span>{duration}</span>
                 </div>
-                <div class="hand" title="展开播放条">
-                    <Icon onClick={this.clickPlayList} style={{marginRight: 200}} type="unordered-list" />
+                <div className="hand" title="展开播放条">
+                    <Icon   onClick={this.clickPlayList}
+                            style={{marginRight: 200}}
+                            type="unordered-list"
+                    />
                 </div>
-                <div className={showPlayList ? 'show' : 'hidden'} style={{position:'fixed', backgroundColor: '#000', opacity: '0.9', height: 300, width: 1000, bottom: 60}}>
+                <div    className={showPlayList ? 'show' : 'hidden'}
+                        style={{position:'fixed',
+                                backgroundColor: '#000',
+                                opacity: '0.9',
+                                height: 300,
+                                width: 1000,
+                                bottom: 60}}
+                >
                     <div>
                         <table>
                             <tbody>

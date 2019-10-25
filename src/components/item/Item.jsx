@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Icon } from 'antd'
 import { Avatar} from 'antd'
 import PropTypes from 'prop-types'
-import getMusicSource from '../../../../api/player'
-import store from '../../../store'
-import passMusic from '../../../action'
+import getMusicSource from '../../api/player'
+import store from '../store'
+import passMusic from '../action'
 import './Item.css'
 
 class Item extends Component {
@@ -37,7 +37,6 @@ class Item extends Component {
     }
 
     getMusic = () => {
-        console.log('getMusic')
         let that = this
         let id = this.state.music.id
         getMusicSource(id, function(res){
@@ -59,19 +58,22 @@ class Item extends Component {
         let name = this.props.name
         let singer = this.props.singer
         return (
-            <tr style={{ height: 50 }} onClick={this.getMusic} >
-                <td class="td-1"></td>
-                <td class="td-2">
+            <tr style={{ height: 50 }}>
+                <td className="td-1"></td>
+                <td className="td-2">
                     <img src={cover} alt=""/>
-                    <Icon className="icon icon-play" type="play-circle"/>
+                    <Icon   className="icon icon-play"
+                            type="play-circle"
+                            onClick={this.getMusic}
+                    />
                     <span>{name}</span>
                 </td>
-                <td class="td-3">
+                <td className="td-3">
                     <Icon className="icon" type="play-circle" />
                     <Icon className="icon" type="plus" />
                     <Icon className="icon" type="download" />
                 </td>
-                <td class="td-4">
+                <td className="td-4">
                     <a href="">{singer}</a>
                 </td>
             </tr>

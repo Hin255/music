@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Icon } from 'antd'
-import Container from './container/Container'
+import Container from '../container/Container'
 import './Ranking.css'
 import { MenuItem } from 'rc-menu'
 import getMusicMenu from '../../api/ranking'
@@ -21,7 +21,6 @@ class Ranking extends Component {
         this.setState({
             index: e.key,
         })
-        console.log(e.key)
     }
 
     componentDidMount() {
@@ -29,14 +28,13 @@ class Ranking extends Component {
         let menus = this.state.menus
         getMusicMenu(function(r){
             let list = r.data.list
-            console.log('data', list.length)
             for (let i = 0; i < list.length; i++) {
                 let item = list[i]
-                let m = <MenuItem key={i} onClick={that.getMusicIndex} >
-                    <img src={item.coverImgUrl} style={{height:30, width:30}} alt=""/>
-                    <span>{item.name}</span>
-                    <span>{item.updateFrequency}</span>
-                    </MenuItem>
+                let m = <MenuItem className="menu-item" key={i} onClick={that.getMusicIndex} >
+                            <img src={item.coverImgUrl} style={{height:30, width:30}} alt=""/>
+                            <span tyle={{ fontSize: 18,}}>{item.name}</span>
+                            <span style={{fontSize: 14, color: '#ccc',}}>{item.updateFrequency}</span>
+                        </MenuItem>
                 menus.push(m)
             }
             that.setState({
@@ -46,17 +44,17 @@ class Ranking extends Component {
     }
 
     render() {
-        let menus = this.state.menus
-        let index = this.state.index
+        const menus = this.state.menus
+        const index = this.state.index
         return (
             <Layout className="ranking">
-                <Sider trigger={null} collapsible>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+                <Sider className="sider" trigger={null} collapsible>
+                    <Menu className="menu" defaultSelectedKeys={['1']}>
                         {menus}
                     </Menu>
                 </Sider>
                     {/* 排行榜中的内容 */}
-                <Container id={index}/>
+                <Container id={index} />
             </Layout>
         )
     }
